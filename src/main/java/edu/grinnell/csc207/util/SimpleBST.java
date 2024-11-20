@@ -9,8 +9,7 @@ import java.util.function.BiConsumer;
 /**
  * A simple implementation of binary search trees.
  *
- * @author Your Name Here
- * @author Your Name Here
+ * @author Nicole Moreno Gonzalez
  * @author Samuel A. Rebelsky
  *
  * @param <K>
@@ -88,8 +87,34 @@ public class SimpleBST<K, V> implements SimpleMap<K, V> {
    * @throws NullPointerException if the key is null.
    */
   @Override
+  
   public V set(K key, V value) {
-    return null;        // STUB
+    if (key == null) {
+      throw new NullPointerException("Key cannot be null");
+    }
+    BSTNode<K, V> current = root;
+    BSTNode<K, V> parent = null;
+    int comp = 0;
+    while (current != null) {
+      comp = order.compare(key, current.key);
+      if (comp == 0) {
+        V oldValue = current.value;
+        current.value = value;
+        return oldValue;
+      }
+      parent = current;
+      current = (comp < 0) ? current.left : current.right;
+    }
+    BSTNode<K, V> newNode = new BSTNode<>(key, value);
+    if (parent == null) {
+      root = newNode; 
+    } else if (comp < 0) {
+      parent.left = newNode;
+    } else {
+      parent.right = newNode;
+    }
+    size++;
+    return null;
   } // set(K, V)
 
   /**
