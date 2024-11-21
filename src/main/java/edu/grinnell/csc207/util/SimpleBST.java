@@ -87,33 +87,38 @@ public class SimpleBST<K, V> implements SimpleMap<K, V> {
    * @throws NullPointerException if the key is null.
    */
   @Override
-  
   public V set(K key, V value) {
     if (key == null) {
       throw new NullPointerException("Key cannot be null");
     }
-    BSTNode<K, V> current = root;
+
+    BSTNode<K, V> current = this.root;
     BSTNode<K, V> parent = null;
-    int comp = 0;
+
     while (current != null) {
-      comp = order.compare(key, current.key);
+      parent = current;
+      int comp = this.order.compare(key, current.key);
       if (comp == 0) {
         V oldValue = current.value;
         current.value = value;
         return oldValue;
+      } else if (comp < 0) {
+        current = current.left;
+      } else {
+        current = current.right;
       }
-      parent = current;
-      current = (comp < 0) ? current.left : current.right;
     }
+
     BSTNode<K, V> newNode = new BSTNode<>(key, value);
+
     if (parent == null) {
-      root = newNode; 
-    } else if (comp < 0) {
+      this.root = newNode; 
+    } else if (this.order.compare(key, parent.key) < 0) {
       parent.left = newNode;
     } else {
       parent.right = newNode;
     }
-    size++;
+    this.size++;
     return null;
   } // set(K, V)
 
