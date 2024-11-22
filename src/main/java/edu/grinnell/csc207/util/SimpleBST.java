@@ -320,7 +320,7 @@ public class SimpleBST<K, V> implements SimpleMap<K, V> {
    */
   Iterator<BSTNode<K, V>> nodes() {
     return new Iterator<BSTNode<K, V>>() {
-      Stack<BSTNode<K, V>> stack = new Stack<>();
+      Stack<BSTNode<K, V>> stack = new Stack<BSTNode<K, V>>();
       BSTNode<K, V> current = SimpleBST.this.root; 
 
       @Override
