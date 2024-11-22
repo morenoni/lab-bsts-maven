@@ -320,30 +320,28 @@ public class SimpleBST<K, V> implements SimpleMap<K, V> {
    */
   Iterator<BSTNode<K, V>> nodes() {
     return new Iterator<BSTNode<K, V>>() {
-
-      Stack<BSTNode<K, V>> stack = new Stack<BSTNode<K, V>>();
-      boolean initialized = false;
+      Stack<BSTNode<K, V>> stack = new Stack<>();
+      BSTNode<K, V> current = SimpleBST.this.root; 
 
       @Override
       public boolean hasNext() {
-        checkInit();
-        return !stack.empty();
-      } // hasNext()
+        return current != null || !stack.isEmpty();
+      }
 
       @Override
       public BSTNode<K, V> next() {
-        checkInit();
-        // STUB
-        return null;
-      } // next();
-
-      void checkInit() {
-        if (!initialized) {
-          stack.push(SimpleBST.this.root);
-          initialized = true;
-        } // if
-      } // checkInit
-    }; // new Iterator
+        while (current != null) {
+          stack.push(current);
+          current = current.left;
+        }
+        if (stack.isEmpty()) {
+          throw new IllegalStateException("No more elements");
+        }
+        BSTNode<K, V> node = stack.pop();
+        current = node.right; 
+        return node;
+      }
+    };
   } // nodes()
 
 } // class SimpleBST
